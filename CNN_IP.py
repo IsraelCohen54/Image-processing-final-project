@@ -108,7 +108,7 @@ def train(model, dataset):
     return accuracy_tr ,epochls.item()
 
 
-##Prints pretty confusion metric with normalization option
+##Prints confusion matrix with normalization option
 def plot_confusion_matrix(cm, classes,normalize=False,title='Confusion matrix',cmap=plt.cm.Blues):
     # Add Normalization Option
     if normalize:
@@ -153,7 +153,7 @@ def test(model, data):
     test_labels=[]
     preds=[]
     #predsTuples =[]
-   # dataTuples = []
+    #dataTuples = []
     with torch.no_grad():
         for sample, label in testLoader:
             test_labels.append(int(label[0]))
@@ -172,20 +172,20 @@ def test(model, data):
             if label[0] == 0 and predClass == "adenocarcinoma":
                 #print("check1")
                 correct_List[0] += 1
-         #   elif predClass == "adenocarcinoma" and label[0] != 0:
+           #elif predClass == "adenocarcinoma" and label[0] != 0:
            #     FP_List[0] += 1
 
             elif label[0] == 1 and predClass == "large.cell.carcinoma":
                 correct_List[1] += 1
                 #print("check2")
-           # elif predClass == "large.cell.carcinoma" and label[0] != 1:
-            #    FP_List[1] += 1
+           #elif predClass == "large.cell.carcinoma" and label[0] != 1:
+           #    FP_List[1] += 1
 
             elif label[0] == 2 and predClass == "squamous.cell.carcinoma":
                 correct_List[2]+=1
                 #print("check3")
-          #  elif predClass == "squamous.cell.carcinoma" and label[0] != 2:
-            #    FP_List[2] += 1
+           #elif predClass == "squamous.cell.carcinoma" and label[0] != 2:
+           #    FP_List[2] += 1
 
             elif label[0] == 3 and predClass == "normal":
                 correct_List[3] += 1
@@ -196,7 +196,6 @@ def test(model, data):
             else:
                 correct_List[4] += 1 #wrong pred
     #print(correct_List)
-
     #print("test_labels", test_labels)
     #print("preds", preds)
     #print("classes", classes)
@@ -353,9 +352,9 @@ if __name__ == '__main__':
 
     #root = "./cropped_data" #2 agumentation than cropped added
     #root = "./only_cropped" #only cropped data
-    root = "./CroppedFirstThenAugmentation" #crop + hirizintal flip augmentation
+    root = "./CroppedFirstThenAugmentation" #crop + horizintal flip augmentation
 
-    # load image with labels - which image came from each folders
+    # Load image with labels that tell us the origin folder (equal to image type).
     dataset = datasets.ImageFolder(root=root, transform=transform)
 
     #datatsne = torch.utils.data.DataLoader(dataset, shuffle=True)
@@ -429,7 +428,7 @@ if __name__ == '__main__':
     val_accuracy = []
     epoch_lst=[]
 
-    # train and test
+    # Train & Test
     for i in range(trainEpochs):
         res_accuracy_train, epoch_ls_train = train(model, trainData) #get epoch train accuracy
         train_accuracy.append(res_accuracy_train) #list of accuracy of trains epoch
@@ -440,10 +439,7 @@ if __name__ == '__main__':
         epoch_lst.append(i)
         #test(model, testData)
 
-    # do print graphs results, with:
+    # Print graphs results, with:
     train_val_loss_accuracy_graphs(train_accuracy, val_accuracy, train_loss, val_loss, epoch_lst)
-
-
-
-    test(model, testData)
     
+    test(model, testData)
